@@ -1,0 +1,249 @@
+/* ── Variables ── */
+:root {
+    --bg:         #0f0f0f;
+    --surface:    #1a1a1a;
+    --border:     #2e2e2e;
+    --num-bg:     #242424;
+    --num-hover:  #2f2f2f;
+    --num-active: #3a3a3a;
+    --fn-bg:      #333333;
+    --fn-hover:   #3d3d3d;
+    --op-bg:      #ff6b35;
+    --op-hover:   #ff8555;
+    --op-active:  #e55a26;
+    --eq-bg:      #ff6b35;
+    --text:       #f5f5f5;
+    --text-dim:   #888888;
+    --display-text: #ffffff;
+    --radius:     18px;
+    --gap:        12px;
+    --shadow:     0 32px 80px rgba(0,0,0,0.6);
+}
+
+/* ── Reset & Base ── */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(255,107,53,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(255,107,53,0.04) 0%, transparent 50%);
+}
+
+/* ── Wrapper ── */
+.wrapper {
+    perspective: 1000px;
+}
+
+/* ── Calc Title ── */
+.calc-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: 0.25em;
+    color: var(--op-bg);
+    text-align: center;
+    margin-bottom: 14px;
+    opacity: 0.85;
+}
+
+/* ── Calculator Shell ── */
+.calculator {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    width: 340px;
+    padding: 24px;
+    box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.05);
+    animation: rise 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes rise {
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Display ── */
+.display {
+    background: #111111;
+    border-radius: 16px;
+    padding: 20px 22px 16px;
+    margin-bottom: 20px;
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    border: 1px solid #1e1e1e;
+    overflow: hidden;
+    position: relative;
+}
+
+.display::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,107,53,0.3), transparent);
+}
+
+.expression {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--text-dim);
+    min-height: 20px;
+    margin-bottom: 6px;
+    letter-spacing: 0.03em;
+    transition: all 0.2s ease;
+    word-break: break-all;
+    text-align: right;
+}
+
+.input-display {
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--display-text);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    transition: font-size 0.15s ease;
+    word-break: break-all;
+    text-align: right;
+}
+
+.input-display.small  { font-size: 32px; }
+.input-display.xsmall { font-size: 24px; }
+
+/* ── Keypad Grid ── */
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--gap);
+}
+
+/* ── Buttons ── */
+.btn {
+    border: none;
+    border-radius: var(--radius);
+    height: 68px;
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.12s ease, transform 0.08s ease, box-shadow 0.12s ease;
+    position: relative;
+    overflow: hidden;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: background 0.1s ease;
+    border-radius: inherit;
+}
+
+.btn:active::after {
+    background: rgba(255,255,255,0.08);
+}
+
+.btn:active {
+    transform: scale(0.93);
+}
+
+/* Number buttons */
+.btn-number {
+    background: var(--num-bg);
+    color: var(--text);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.btn-number:hover {
+    background: var(--num-hover);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* Function buttons (AC, +/-, %) */
+.btn-function {
+    background: var(--fn-bg);
+    color: var(--text);
+    font-size: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+.btn-function:hover {
+    background: var(--fn-hover);
+}
+
+/* Operator buttons (÷ × − +) */
+.btn-operator {
+    background: transparent;
+    color: var(--op-bg);
+    font-size: 24px;
+    border: 1.5px solid var(--op-bg);
+    box-shadow: 0 4px 12px rgba(255,107,53,0.1);
+}
+.btn-operator:hover {
+    background: rgba(255,107,53,0.08);
+    box-shadow: 0 4px 20px rgba(255,107,53,0.2);
+}
+.btn-operator.active {
+    background: var(--op-bg);
+    color: #fff;
+    box-shadow: 0 6px 24px rgba(255,107,53,0.4);
+}
+
+/* Equals button */
+.btn-equals {
+    background: var(--eq-bg);
+    color: #fff;
+    font-size: 24px;
+    grid-column: span 2;
+    box-shadow: 0 6px 24px rgba(255,107,53,0.35);
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+.btn-equals:hover {
+    background: var(--op-hover);
+    box-shadow: 0 8px 28px rgba(255,107,53,0.5);
+}
+
+/* Zero button (wide) */
+.btn-zero {
+    grid-column: span 1;
+    text-align: left;
+    padding-left: 24px;
+}
+
+/* ── Error State ── */
+.input-display.error {
+    color: #ff4d4d;
+    font-size: 28px;
+}
+
+/* ── Ripple ── */
+@keyframes ripple {
+    to { transform: scale(4); opacity: 0; }
+}
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    width: 20px; height: 20px;
+    background: rgba(255,255,255,0.15);
+    transform: scale(0);
+    animation: ripple 0.5s linear;
+    pointer-events: none;
+}
+
