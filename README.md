@@ -22,4 +22,4 @@ CALCIFY is a sleek, glassmorphic calculator application designed for a premium u
 
 1. **Clone the repository**:
    ```bash
-   git clone [https://github.com/YOUR_USERNAME/calcify-web-app.git](https://github.com/YOUR_USERNAME/calcify-web-app.git)
+   git clone [https://github.com/gowthamoffll/calcify-web-app.git](https://github.com/gowthamoffll/calcify-web-app.git)
